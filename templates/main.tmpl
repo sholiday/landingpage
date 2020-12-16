@@ -1,0 +1,26 @@
+{{template "header.tmpl" .}}
+
+<div class="container-sm">
+  <h1>{{.title}}</h1>
+  <div>Welcome {{.user.Name}}</div>
+  </br>
+
+
+{{range $index, $app := .apps}}
+{{ if startRow $index 3 }}<div class="row">{{end}}
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{.Title}}</h5>
+        <p class="card-text">{{.Description}}</p>
+        <a href="{{.Url}}" class="btn btn-primary">Go</a>
+      </div>
+    </div>
+  </div>
+{{ if endRow $index 3 }}</div>{{end}}
+{{end}}
+
+</div> <!-- container -->
+<br />
+
+{{template "footer.tmpl" .}}

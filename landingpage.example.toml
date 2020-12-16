@@ -1,0 +1,27 @@
+[server]
+host="localhost"
+port=8081
+title="My Landing Page"
+
+[[users]]
+name="Bob Barker"
+usernames=["bob@example.com", "bob@corp.com"]
+groups=["admin", "family"]
+
+[[users]]
+name="Bart"
+usernames=["bart@example.com"]
+groups=["family"]
+
+[apps]
+  [apps.portainer]
+  title="Portainer"
+  description="Docker management UI"
+  url="https://portainer.example.com"
+  groups=["admin"]
+  
+  [apps.calibre]
+  title="Calibre"
+  description="eBook Library"
+  url="http://calibre.exmple.com"
+  groups=["family"]
