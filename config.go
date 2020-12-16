@@ -64,6 +64,7 @@ func (c *Config) AppsForUsername(username string) ([]string, error) {
 	return appList, nil
 }
 
+// Retrieve the config data for a given username.
 func (c *Config) ConfigForUsername(username string) (UserConfig, error) {
 	for _, u := range c.Users {
 		for _, n := range u.Usernames {
