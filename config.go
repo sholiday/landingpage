@@ -3,12 +3,44 @@ package landingpage
 import (
 	"fmt"
 	"sort"
+
+	"github.com/spf13/viper"
 )
 
+func LoadConfig() (Config, error) {
+	var config Config
+	viper.SetEnvPrefix("LANDINGPAGE")
+	viper.SetConfigName("landingpage")
+	viper.AddConfigPath("$HOME/.config/landingpage/")
+	viper.AddConfigPath("/etc/landingpage/")
+	viper.AddConfigPath("/config")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
+	err := viper.ReadInConfig()
+	if viper.Get("server.port") == nil {
+		viper.Set("server.port", 8081)
+	}
+	if viper.Get("server.title") == nil {
+		viper.Set("server.title", "My Landing Page")
+	}
+	if viper.Get("server.userheader") == nil {
+		viper.Set("server.userheader", "X-Forwarded-User")
+	}
+	if err != nil {
+		return config, fmt.Errorf("Failed to read config file: %s", err)
+	}
+	err = viper.Unmarshal(&config)
+	if err != nil {
+		return config, fmt.Errorf("Failed to unmarshal config file: %s", err)
+	}
+	return config, err
+}
+
 type ServerConfig struct {
-	Host  string
-	Port  int
-	Title string
+	Host       string
+	Port       int
+	Title      string
+	UserHeader string
 }
 
 type UserConfig struct {

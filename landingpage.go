@@ -1,6 +1,7 @@
 package landingpage
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -20,8 +21,15 @@ type App struct {
 	debugMode bool
 }
 
+func (a *App) GetFuncMap() template.FuncMap {
+	return template.FuncMap{
+		"startRow": func(i int, j int) bool { return i%j == 0 },
+		"endRow":   func(i int, j int) bool { return (i+1)%j == 0 },
+	}
+}
+
 func (a *App) determineUser(c *gin.Context) string {
-	user := c.Request.Header.Get("X-Forwarded-User")
+	user := c.Request.Header.Get(a.config.Server.UserHeader)
 	if a.debugMode && len(c.Query("user")) != 0 {
 		userOverride := c.Query("user")
 		log.Printf("Overriding user '%s' with '%s'\n", user, userOverride)
